@@ -1,0 +1,27 @@
+<!-- Navbar (eng tepada) -->
+<nav class="navbar">
+    <ul>
+        <li><a href="{% url 'home' %}" class="active">Asosiy</a></li>
+        <li><a href="about.html">Biz haqimizda</a></li>
+        <li><a href="login.html">Kirish</a></li>
+        <li><a href="register.html">Ro'yxatdan o'tish</a></li>
+        <li><a href="profile.html">Profil</a></li>
+        <li><a href="add-news.html">Yangilik qo'shish</a></li>
+        <li><a href="admin-message.html">Admin xabari</a></li>
+    </ul>
+</nav>
+
+<!-- Header rasmi -->
+<div class="header-image"></div>
+
+<!-- Kategoriyalar menyusi header rasmi ostida -->
+<div class="category-menu">
+    {% for category in categories %}
+    <a href="{% url 'news_by_category' category.pk %}">{{ category.name }}</a>
+    {% endfor %}
+</div>
+
+<header class="header-content">
+    <div class="logo">Yangiliklar</div>
+    <button class="nav-toggle" aria-label="Menyu ochish">&#9776;</button>
+</header>

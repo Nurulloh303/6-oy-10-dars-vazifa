@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <title>
+        {% block title %}
+        Kun uz
+        {% endblock title %}
+    </title>
+
+    {% include 'components/_styles.html' %}
+</head>
+<body>
+
+{% include 'components/_header.html' %}
+
+<div class="container">
+    {% block content %}
+    {% endblock content %}
+</div>
+
+{% include 'components/_footer.html' %}
+
+{% include 'components/_scripts.html' %}
+
+
+</body>
+</html>

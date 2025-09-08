@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ block.super }}: {{ title }}
+{% endblock title %}
+
+{% block content %}
+  <div class="container" style="max-width: 800px;">
+    <h1>{{ news.title }}</h1>
+
+    <div class="detail-meta">
+      <span>Ko‘rishlar: {{ news.views }}</span>
+      <span>Qo‘shilgan vaqti: {{ news.created|date:"d/m/Y" }}</span>
+      <span>Kategoriya: {{ news.category.name }}</span>
+    </div>
+
+    {% if news.image %}
+    <img src="{{ news.image.url }}" alt="Yangilik rasmi" style="width:100%; max-height:400px; object-fit:cover; margin: 15px 0;" />
+    {% endif %}
+
+    <p>{{ news.description|linebreaks }}</p>
+
+    {% if news.video %}
+    <video controls style="width: 100%; max-height: 400px; margin-top: 20px;">
+      <source src="{{ news.video.url }}" type="video/mp4" />
+      Sizning brauzeringiz video formatini qo‘llab-quvvatlamaydi.
+    </video>
+    {% endif %}
+
+    {% if request.user.is_authenticated %}
+    <form method="post" action="{% url 'add_comment' news.pk %}">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Send</button>
+    </form>
+    {% endif %}
+
+    <h3>Izohlar:</h3>
+    <div>
+      {% for comment in comments %}
+      <ul>
+        <li><b>{{ comment.user.username }}</b></li>
+        <li>{{ comment.text }}</li>
+        <li>{{ comment.created|date:"d/m/Y" }}</li>
+      </ul>
+      {% empty %}
+      <p>Hozircha izoh yo‘q.</p>
+      {% endfor %}
+    </div>
+
+  </div>
+{% endblock content %}

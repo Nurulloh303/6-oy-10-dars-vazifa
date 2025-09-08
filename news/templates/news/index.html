@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ block.super }}: {{ title }}
+{% endblock title %}
+
+{% block content %}
+    <h1>So'nggi yangiliklar</h1>
+
+    <div class="news-cards">
+        {% for news in newses %}
+        <div class="news-card">
+
+            {% if news.image %}
+            <img src="{{ news.image.url }}" alt="Yangilik rasmi"/>
+            {% else %}
+            <img src="" alt="Not found"/>
+            {% endif %}
+
+            <div class="news-card-content">
+                <h3><a href="{% url 'news_detail' news.pk %}" style="text-decoration: none;">
+                    {{ news.title }}
+                </a></h3>
+
+                <p>{{ news.description|truncatewords:15 }}</p>
+                <div class="news-card-meta">
+                    <span class="views">
+                      {{ news.views }}
+                    </span>
+                    <span>Qo‘shilgan vaqti: {{ news.created|date:"d/m/Y" }}</span>
+                </div>
+                <div class="news-card-actions">
+                    <a href="{% url 'delete_news' news.pk %}" title="O'chirish" aria-label="Delete">
+                         O‘chirish
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock content %}
