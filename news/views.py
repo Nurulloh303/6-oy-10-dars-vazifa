@@ -77,7 +77,31 @@ def save_news(request: HttpRequest):
     return render(request, "news/add-news.html", context)
 
 
-def delete_news(request: HttpRequest, pk: int):
+def update_news(request, pk: int):
     news = get_object_or_404(News, pk=pk)
-    news.delete()
-    return redirect("home")
+    if request.method == "POST":
+        form = NewsForm(data=request.POST, files=request.FILES, instance=news)
+        if form.is_valid():
+            mews = form.save()
+            return redirect("news_detail", pk=news.pk)
+    else:
+        form = NewsForm(instance=news)
+
+    context = {
+        "form": form,
+    }
+
+    return render(request, "news/add-news.html", context)
+
+
+def delete_news(request, pk: int):
+    news = get_object_or_404(News, pk=pk)
+    if request.method == "POST":
+        news.delete()
+        return redirect("home")
+    else:
+        context = {
+            'title': news.title,
+        }
+
+        return render(request, "news/confirm-delete.html", context)
